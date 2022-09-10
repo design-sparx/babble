@@ -20,6 +20,19 @@
     "react"
   ],
   "rules": {
-    "indent": [2, "tab"]
+    "semi": [
+      2,
+      "always"
+    ],
+    "@typescript-eslint/semi": 0,
+    "react/no-unescaped-entities": [
+      "error",
+      {
+        "forbid": [
+          ">",
+          "}"
+        ]
+      }
+    ]
   }
 }

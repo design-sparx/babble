@@ -1,13 +1,17 @@
+import { MantineProvider } from '@mantine/core';
 import React from 'react';
-import './App.css';
-import {RegisterPage} from "./pages";
+import { Route, Routes } from 'react-router-dom';
+import { LoginPage, RegisterPage } from './pages';
 
-function App() {
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <RegisterPage/>
-    </div>
+    <MantineProvider>
+      <Routes>
+        <Route path="register" element={<RegisterPage/>}/>
+        <Route path="login" element={<LoginPage/>}/>
+      </Routes>
+    </MantineProvider>
   );
-}
+};
 
 export default App;
