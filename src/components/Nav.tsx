@@ -6,6 +6,8 @@ import {
   IconChevronDown, IconMessage2
 } from '@tabler/icons';
 import { useDisclosure } from '@mantine/hooks';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -43,6 +45,10 @@ const Nav = (): JSX.Element => {
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
+  const handleLogout = (): void => {
+    void signOut(auth);
+  };
+
   return (
     <Box className={classes.navbar}>
       <Group position="apart">
@@ -73,7 +79,12 @@ const Nav = (): JSX.Element => {
           <Menu.Dropdown>
             <Menu.Label>Settings</Menu.Label>
             <Menu.Item icon={<IconSettings size={14} stroke={1.5}/>}>Account settings</Menu.Item>
-            <Menu.Item icon={<IconLogout size={14} stroke={1.5}/>}>Logout</Menu.Item>
+            <Menu.Item
+              icon={<IconLogout size={14} stroke={1.5}/>}
+              onClick={handleLogout}
+            >
+              Logout
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>

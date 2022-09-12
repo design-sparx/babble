@@ -20,10 +20,12 @@ import { auth, db, storage } from '../firebase';
 import { IconAlertCircle } from '@tabler/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const Register = (): JSX.Element => {
   const [file, setFile] = useState<File | null>();
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   // @ts-expect-error
   const handleSubmit = async (e: React.SyntheticEvent): any => {
@@ -84,6 +86,16 @@ const Register = (): JSX.Element => {
               email,
               photoUrl: downloadURL
             });
+
+            /**
+             * add user to user chats
+             */
+            await setDoc(doc(db, 'userChats', res.user.uid), {});
+
+            /**
+             * navigate to home page after login
+             */
+            navigate('/');
           }).catch(e => console.log(e));
         }
       );
