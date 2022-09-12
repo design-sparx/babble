@@ -1,5 +1,5 @@
 import { Avatar, Box, createStyles, Group, Menu, UnstyledButton, Text, Burger } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   IconLogout,
   IconSettings,
@@ -8,6 +8,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import { AuthContext } from '../context/Auth';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -44,6 +45,7 @@ const Nav = (): JSX.Element => {
   } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
   const handleLogout = (): void => {
     void signOut(auth);
@@ -52,7 +54,10 @@ const Nav = (): JSX.Element => {
   return (
     <Box className={classes.navbar}>
       <Group position="apart">
-        <IconMessage2 size={28}/>
+        <Group>
+          <IconMessage2 size={28}/>
+          <Text>babble</Text>
+        </Group>
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm"/>
         <Menu
           width={260}
@@ -67,10 +72,10 @@ const Nav = (): JSX.Element => {
             >
               <Group spacing={7}>
                 <Avatar
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                  alt="profile picture" radius="xl" size={32}/>
+                  src={currentUser.photoURL}
+                  alt={`${String(currentUser.displayName)} avatar`} radius="xl" size={32}/>
                 <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                  john doe
+                  {currentUser.displayName}
                 </Text>
                 <IconChevronDown size={12} stroke={1.5}/>
               </Group>
