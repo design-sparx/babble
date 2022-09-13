@@ -1,8 +1,9 @@
 import { ActionIcon, Box, createStyles, Group, Paper, Text } from '@mantine/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { IconDots, IconPhoneCall, IconVideo } from '@tabler/icons';
 import Messages from './Messages';
 import MessageBox from './MessageBox';
+import { ChatContext } from '../context/Chat';
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -29,11 +30,12 @@ const useStyles = createStyles(() => ({
 
 const Chat = (): JSX.Element => {
   const { classes } = useStyles();
+  const { data } = useContext(ChatContext);
 
   return (
     <Box className={classes.wrapper}>
       <Paper className={classes.header} p="md">
-        <Text weight={500}>john doe</Text>
+        <Text weight={500}>{data.user?.displayName}</Text>
         <Group>
           <ActionIcon>
             <IconVideo size={18}/>

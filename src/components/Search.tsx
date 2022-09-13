@@ -4,6 +4,7 @@ import { IconAlertCircle, IconSearch } from '@tabler/icons';
 import { collection, query, where, getDoc, getDocs, setDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/Auth';
+import { ChatContext } from '../context/Chat';
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -24,6 +25,7 @@ const Search = (): JSX.Element => {
   const [user, setUser] = useState<any>();
   const [err, setErr] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
 
   /**
    * handle search
@@ -53,7 +55,10 @@ const Search = (): JSX.Element => {
     e.code === 'Enter' && handleSearch();
   };
 
-  const handleSelect = async (): Promise<any> => {
+  /**
+   * handle select
+   */
+  const handleSelect = async (u: any): Promise<any> => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     const combinedId: string = currentUser.uid > user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid;
     /**
@@ -96,6 +101,14 @@ const Search = (): JSX.Element => {
           [combinedId + '.date']: serverTimestamp()
         });
       }
+
+      /**
+       * update selected context
+       */
+      dispatch({
+        type: 'CHANGE_USER',
+        payload: u
+      });
     } catch (e) {
       console.log(e);
     }
@@ -120,7 +133,7 @@ const Search = (): JSX.Element => {
       }
       {(Boolean(user)) &&
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        <UnstyledButton key={user.uid} className={classes.user} onClick={handleSelect}>
+        <UnstyledButton key={user.uid} className={classes.user} onClick={async () => await handleSelect(user)}>
           <Group>
             <Avatar src={user.photoURL} radius="xl"/>
             <div style={{ flex: 1 }}>

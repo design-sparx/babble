@@ -25,12 +25,18 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const Message = (): JSX.Element => {
+interface MessageProps {
+  message: any
+}
+
+const Message = ({ message }: MessageProps): JSX.Element => {
   const {
     classes,
     cx
   } = useStyles();
   const body = '<p>I use <a href="https://heroku.com/" rel="noopener noreferrer" target="_blank">Heroku</a> to host my Node.js application, but MongoDB add-on appears to be too <strong>expensive</strong>. I consider switching to <a href="https://www.digitalocean.com/" rel="noopener noreferrer" target="_blank">Digital Ocean</a> VPS to save some cash.</p>';
+
+  console.log(message);
 
   return (
     <Group className={cx(classes.comment, classes.owner)} align="start">
