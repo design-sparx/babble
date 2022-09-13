@@ -33,6 +33,12 @@
           "}"
         ]
       }
+    ],
+    "@typescript-eslint/no-misused-promises": [
+      "warn",
+      {
+        "checksVoidReturn": false
+      }
     ]
   }
 }

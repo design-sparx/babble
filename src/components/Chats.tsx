@@ -27,7 +27,7 @@ const Chats = (): JSX.Element => {
   useEffect(() => {
     const getChats = (): () => void => {
       const unsub = onSnapshot(doc(db, 'userChats', currentUser.uid), (doc) => {
-        setChats(doc.data());
+        setChats((doc.data() != null) ? doc.data() : {});
       });
 
       return () => {
@@ -58,15 +58,15 @@ const Chats = (): JSX.Element => {
           onClick={() => handleSelect(c[1].userInfo)}
         >
           <Group>
-            <Avatar src={c[1].userInfo.photoURL} radius="xl"/>
+            <Avatar src={c[1].userInfo?.photoURL} radius="xl"/>
 
             <div style={{ flex: 1 }}>
               <Text size="sm" weight={500}>
-                {c[1].userInfo.displayName}
+                {c[1].userInfo?.displayName}
               </Text>
 
               <Text color="dimmed" size="xs">
-                {c[1].userInfo.displayName}
+                {c[1].lastMessage?.text}
               </Text>
             </div>
           </Group>

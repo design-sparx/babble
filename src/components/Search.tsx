@@ -81,7 +81,7 @@ const Search = (): JSX.Element => {
           [combinedId + '.userInfo']: {
             uid: user.uid,
             displayName: user.displayName,
-            photoURL: user.photoUrl
+            photoURL: user.photoURL
           },
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           [combinedId + '.date']: serverTimestamp()
@@ -95,7 +95,7 @@ const Search = (): JSX.Element => {
           [combinedId + '.userInfo']: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
-            photoURL: currentUser.photoUrl
+            photoURL: currentUser.photoURL
           },
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           [combinedId + '.date']: serverTimestamp()
