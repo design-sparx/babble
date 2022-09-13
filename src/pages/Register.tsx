@@ -84,7 +84,7 @@ const Register = (): JSX.Element => {
               uid: res.user.uid,
               displayName,
               email,
-              photoUrl: downloadURL
+              photoURL: downloadURL
             });
 
             /**
