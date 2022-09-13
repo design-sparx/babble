@@ -51,7 +51,7 @@ const Chats = (): JSX.Element => {
 
   return (
     <Box>
-      {Object.entries(chats)?.map((c: any) =>
+      {Object.entries(chats)?.sort((a: any, b: any) => b[1].date - a[1].date).map((c: any) =>
         <UnstyledButton
           className={classes.user}
           key={c[0]}

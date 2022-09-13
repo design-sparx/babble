@@ -95,10 +95,6 @@ const MessageBox = (): JSX.Element => {
       [data.chatId + '.date']: serverTimestamp()
     });
 
-    console.log(data.chatId);
-    console.log(data.user.uid);
-    console.log(currentUser.uid);
-
     setMessage('');
     setFile(null);
   };

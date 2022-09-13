@@ -24,7 +24,7 @@ const Messages = (): JSX.Element => {
     return () => {
       unsub();
     };
-  }, []);
+  }, [data.chatId]);
 
   return (
     <Box className={classes.messages}>

@@ -1,5 +1,8 @@
 import { Avatar, createStyles, Group, Paper, Stack, Text, TypographyStylesProvider } from '@mantine/core';
-import React from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import { AuthContext } from '../context/Auth';
+import { ChatContext } from '../context/Chat';
+import { Timestamp } from 'firebase/firestore';
 
 const useStyles = createStyles((theme) => ({
   comment: {
@@ -26,7 +29,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface MessageProps {
-  message: any
+  message: {
+    date: { nanoseconds: number, seconds: number }
+    id: string
+    senderId: string
+    text: string
+    file?: string
+  }
 }
 
 const Message = ({ message }: MessageProps): JSX.Element => {
@@ -34,28 +43,39 @@ const Message = ({ message }: MessageProps): JSX.Element => {
     classes,
     cx
   } = useStyles();
-  const body = '<p>I use <a href="https://heroku.com/" rel="noopener noreferrer" target="_blank">Heroku</a> to host my Node.js application, but MongoDB add-on appears to be too <strong>expensive</strong>. I consider switching to <a href="https://www.digitalocean.com/" rel="noopener noreferrer" target="_blank">Digital Ocean</a> VPS to save some cash.</p>';
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+  const {
+    date,
+    text,
+    senderId,
+    file
+  } = message;
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  console.log(message);
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
 
   return (
-    <Group className={cx(classes.comment, classes.owner)} align="start">
+    <Group className={cx(classes.comment, senderId === currentUser.uid ? classes.owner : '')} align="start" ref={ref}>
       <Avatar
-        src="https://images.unsplash.com/photo-1624298357597-fd92dfbec01d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80"
-        alt="Jacob Warnhalte"
+        src={senderId === currentUser.uid ? currentUser.photoURL : data.user.photoURL}
+        alt={`${senderId} profile image`}
         radius="xl"
       />
       <Paper p="sm">
         <Stack spacing="xs">
           <Group>
-            <Text size="xs">Jacob Warnhalter</Text>
+            <Text size="xs">{data.user.displayName}</Text>
             <Text size="xs" color="dimmed">
-              10 minutes ago
+              {new Timestamp(date.seconds, date.nanoseconds).toDate().toLocaleDateString()}
             </Text>
           </Group>
           <TypographyStylesProvider className={classes.message}>
-            <div className={classes.content} dangerouslySetInnerHTML={{ __html: body }}/>
+            <div className={classes.content} dangerouslySetInnerHTML={{ __html: text }}/>
           </TypographyStylesProvider>
+          {(file != null) && <img src={file} alt="" />}
         </Stack>
       </Paper>
     </Group>

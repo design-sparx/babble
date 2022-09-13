@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }: AuthContextProps): JSX.Element
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log('', user);
     });
 
     return () => {
