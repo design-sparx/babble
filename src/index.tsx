@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthContextProvider } from './context/Auth';
 import { ChatContextProvider } from './context/Chat';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as dotenv from 'dotenv';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
